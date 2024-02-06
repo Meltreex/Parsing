@@ -1,20 +1,20 @@
 from bs4 import BeautifulSoup
 import json
 import requests
-
+#Здесь требуется указать Accept и User-Agent вашего браузера
 headers = {
-    'Accept': '*/*',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0'
+    'Accept': '',
+    'User-Agent': ''
 }
 
 
 url = 'https://russianstreetwear.club'
-
+#Открываем ссылки на чтение
 with open('links_for_brands.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 dict_brands = {}
-
+#Циклом проходимся по всем ссылкам брендов
 for item in data:
 
     response = requests.get(url=url+item, headers=headers)
@@ -31,6 +31,6 @@ for item in data:
         href = i['href']
         links_list.append(href)
     dict_brands[name] = [name, city, description, links_list]
-
+#Сохраняем все в json файл
 with open('brands_list.json', 'w', encoding='utf-8') as file:
     json.dump(dict_brands, file, indent=4, ensure_ascii=False)
